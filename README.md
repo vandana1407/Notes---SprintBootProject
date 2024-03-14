@@ -4,6 +4,7 @@ In memory h2 db - http://localhost:8082/h2-console
 username-sa , password - empty
 
 Various api calls can be made as below:
+
 Get - http://localhost:8082/api/notes/load
 loads 5 records in notes table
 
