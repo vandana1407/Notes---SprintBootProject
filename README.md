@@ -3,6 +3,16 @@ Various Notes aded, deleted, searched and updated can be seen in H2 database -
 In memory h2 db - http://localhost:8082/h2-console
 username-sa , password - empty
 
+Functionality covered:
+ You should be able to return all notes.
+ You should be able to add one or more notes.
+ You should be able to edit a note.
+ You should be able to delete one or more notes.
+ You should be able to search notes.
+ The notes should be persisted and retrieved via the service.
+
+Tested apis in Postman
+
 Various api calls can be made as below:
 
 Get - http://localhost:8082/api/notes/load
@@ -46,3 +56,6 @@ http://localhost:8082/api/notes/1 -
 delete - DELETE - http://localhost:8082/api/notes/1 - delteby id
 delete by user - http://localhost:8082/api/notes/byuser/user3
 delete by title - http://localhost:8082/api/notes/bytitle/title4
+
+
+Also Included NotesControllerIntegrationTests and 100% tests pass.
