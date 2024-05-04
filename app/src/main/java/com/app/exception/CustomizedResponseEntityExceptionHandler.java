@@ -1,4 +1,4 @@
-package com.walmart.app.exception;
+package com.app.exception;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +15,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<ErrorDetails> handleAllExceptions(Exception ex, WebRequest request) throws Exception {
 		ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), ex.getMessage(),
+				//"abcd", request.getDescription(false));
 				ex.getCause().getLocalizedMessage(), request.getDescription(false));
 
 		return new ResponseEntity<ErrorDetails>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,4 +1,4 @@
-package com.walmart.app.exception;
+package com.app.exception;
 
 import java.time.LocalDateTime;
 

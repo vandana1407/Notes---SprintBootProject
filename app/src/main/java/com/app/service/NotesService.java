@@ -1,8 +1,12 @@
-package com.walmart.app.service;
+package com.app.service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,8 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.walmart.app.dao.NotesDao;
-import com.walmart.app.model.Note;
+import com.app.dao.NotesDao;
+import com.app.model.Note;
 
 @Service
 public class NotesService {
@@ -86,12 +90,20 @@ public class NotesService {
 
 	public ResponseEntity<Note> addNote(Note note) throws Exception {
 		try {
+			note.setTicketIds(extractTicketIds(note.getText()));
 			notesDao.save(note);
 			return new ResponseEntity<>(note, HttpStatus.CREATED);
 		} catch (Exception e) {
 			throw new Exception("Add note failed");
 		}
 
+	}
+	
+	public Set<String> extractTicketIds(String text) {
+		Pattern pattern = Pattern.compile("[a-zA-Z]{2,4}-[0-9]{5}");
+		
+		Matcher matcher = pattern.matcher(text);
+		return (Set<String>) matcher.results().map(i->i.group()).collect(Collectors.toSet());
 	}
 
 	public ResponseEntity<List<Note>> addNotes(List<Note> notes) throws Exception {
@@ -130,6 +142,7 @@ public class NotesService {
 	public ResponseEntity<List<Note>> deleteNoteByCreatedBy(String createdBy) throws Exception {
 		try {
 			List<Note> notes = notesDao.deleteByCreatedBy(createdBy);
+			//throw new Exception("Delete Note By createdBy failed");
 			return new ResponseEntity<>(notes, HttpStatus.OK);
 		} catch (Exception e) {
 			throw new Exception("Delete Note By createdBy failed");
@@ -143,18 +156,20 @@ public class NotesService {
 			List<Note> notes = notesDao.deleteByTitle(title);
 			return new ResponseEntity<>(notes, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Exception("Delete note by title failed");
 		}
 
 	}
 
 	public ResponseEntity<List<Note>> load() {
-		List<Note> notes = new ArrayList<>(List.of(new Note(3, "Not spring related", "user1", "Notes on kubernetes"),
-				new Note(4, "Not spring related", "user2", "Notes on Docker"),
-				new Note(5, "title3", "user3", "Notes on Spring MVC"),
-				new Note(6, "title4", "user4", "Notes on Spring Security"),
-				new Note(7, "title5", "user5", "Notes on Spring boot")));
-
+	/*	List<Note> notes = new ArrayList<>(List.of(new Note(3, "Not spring related", "Chen", "Management Fundamentals"),
+				new Note(4, "Not spring related", "Amit", "Cooking Classes Onine"),
+				new Note(5, "title3", "Josh", "Spring MVC Notes"),
+				new Note(6, "title4", "Emily", "Spring Security Fundamentals"),
+				new Note(7, "title5", "Ella", "Spring Boot Fundamentals")));
+*/
+		List<Note> notes = new ArrayList<>();
 		try {
 			notesDao.saveAll(notes);
 			return new ResponseEntity<>(notes, HttpStatus.CREATED);

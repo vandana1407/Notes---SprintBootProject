@@ -1,8 +1,8 @@
-package com.walmart.app.integration;
+package com.app.integration;
 
+import com.app.dao.NotesDao;
+import com.app.model.Note;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.walmart.app.dao.NotesDao;
-import com.walmart.app.model.Note;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
